@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "rule.schema.json",
+  "title": "Document rule",
+  "type": "object",
+  "required": ["rule_id", "name", "product", "conditions", "actions"],
+  "properties": {
+    "rule_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9_]+$",
+      "description": "Unique across all rule files. Snake_case."
+    },
+    "name": { "type": "string" },
+    "description": { "type": "string" },
+    "product": {
+      "description": "Product code(s) this rule applies to, or '*' for every product.",
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+      ]
+    },
+    "priority": {
+      "type": "integer",
+      "default": 100,
+      "description": "Lower number = higher precedence when two matching rules include the same template_id with conflicting overrides. Exclusions always win regardless of priority."
+    },
+    "is_active": { "type": "boolean", "default": true },
+    "effective_from": { "type": "string", "format": "date", "description": "YYYY-MM-DD. Rule is ignored before this date." },
+    "effective_to": { "type": "string", "format": "date", "description": "YYYY-MM-DD. Rule is ignored after this date." },
+    "conditions": { "$ref": "condition.schema.json" },
+    "actions": {
+      "type": "object",
+      "properties": {
+        "include_documents": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["template_id"],
+            "properties": {
+              "template_id": { "type": "string" },
+              "language": { "type": "string" },
+              "variables": { "type": "object" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "exclude_documents": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "template_ids to remove from the resolved set, even if another matching rule included them."
+        },
+        "set_variables": {
+          "type": "object",
+          "description": "Merged into every resolved document's variables for this evaluation (e.g. {'language': 'de'})."
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,10 @@
+[
+  { "template_id": "parent_contract_en", "name": "Parent Contract (English)", "file": "templates/parent_contract_en.docx", "language": "en" },
+  { "template_id": "mortgage_contract_en", "name": "Mortgage Contract (English)", "file": "templates/mortgage_contract_en.docx", "language": "en" },
+  { "template_id": "mortgage_contract_de", "name": "Mortgage Contract (German)", "file": "templates/mortgage_contract_de.docx", "language": "de" },
+  { "template_id": "kyc_form_en", "name": "KYC Form (English)", "file": "templates/kyc_form_en.docx", "language": "en" },
+  { "template_id": "kyc_form_de", "name": "KYC Form (German)", "file": "templates/kyc_form_de.docx", "language": "de" },
+  { "template_id": "kyc_enhanced_form_en", "name": "Enhanced KYC Form (English)", "file": "templates/kyc_enhanced_form_en.docx", "language": "en" },
+  { "template_id": "auto_loan_contract_en", "name": "Auto Loan Contract (English)", "file": "templates/auto_loan_contract_en.docx", "language": "en" },
+  { "template_id": "sanctions_disclosure_en", "name": "Sanctions Country Disclosure (English)", "file": "templates/sanctions_disclosure_en.docx", "language": "en" }
+]

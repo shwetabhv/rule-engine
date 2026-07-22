@@ -1,0 +1,12 @@
+{
+  "json.schemas": [
+    {
+      "fileMatch": ["rules/products/*.json"],
+      "url": "./rules/schema/rules_file.schema.json"
+    },
+    {
+      "fileMatch": ["rules/documents/templates.json"],
+      "url": "./rules/schema/templates_file.schema.json"
+    }
+  ]
+}

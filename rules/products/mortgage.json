@@ -1,0 +1,78 @@
+[
+  {
+    "rule_id": "mortgage_base_docs",
+    "name": "Baseline mortgage documents (all clients)",
+    "description": "Default English contract + KYC form for every mortgage client, before any country/language or risk-based overrides are layered on.",
+    "product": "mortgage",
+    "priority": 100,
+    "is_active": true,
+    "conditions": { "always": true },
+    "actions": {
+      "include_documents": [
+        { "template_id": "parent_contract_en" },
+        { "template_id": "mortgage_contract_en" },
+        { "template_id": "kyc_form_en" }
+      ],
+      "set_variables": { "language": "en" }
+    }
+  },
+  {
+    "rule_id": "mortgage_de_language_docs",
+    "name": "German-language contract & KYC for DE-resident accounts",
+    "description": "Clients whose account was opened in Germany receive the German-language mortgage contract and KYC form instead of the English defaults.",
+    "product": "mortgage",
+    "priority": 10,
+    "is_active": true,
+    "conditions": {
+      "all": [
+        { "field": "account.country", "op": "eq", "value": "DE" }
+      ]
+    },
+    "actions": {
+      "include_documents": [
+        { "template_id": "mortgage_contract_de" },
+        { "template_id": "kyc_form_de" }
+      ],
+      "exclude_documents": ["mortgage_contract_en", "kyc_form_en"],
+      "set_variables": { "language": "de" }
+    }
+  },
+  {
+    "rule_id": "mortgage_enhanced_kyc_high_value",
+    "name": "Enhanced KYC for high-value mortgage loans",
+    "description": "Loans above 500,000 or clients flagged high-risk require an additional enhanced KYC form on top of the standard one.",
+    "product": "mortgage",
+    "priority": 20,
+    "is_active": true,
+    "conditions": {
+      "any": [
+        { "field": "loan.amount", "op": "gt", "value": 500000 },
+        { "field": "client.risk_rating", "op": "eq", "value": "high" }
+      ]
+    },
+    "actions": {
+      "include_documents": [
+        { "template_id": "kyc_enhanced_form_en" }
+      ]
+    }
+  },
+  {
+    "rule_id": "mortgage_sanctions_disclosure",
+    "name": "Sanctions-related jurisdiction disclosure",
+    "description": "Adds a mandatory sanctions disclosure when the client's nationality is on the watch list, unless the account is domestic (DE), which is already covered by local enhanced KYC.",
+    "product": "mortgage",
+    "priority": 5,
+    "is_active": true,
+    "conditions": {
+      "all": [
+        { "field": "client.nationality", "op": "in", "value": ["IR", "KP", "SY"] },
+        { "not": { "field": "account.country", "op": "eq", "value": "DE" } }
+      ]
+    },
+    "actions": {
+      "include_documents": [
+        { "template_id": "sanctions_disclosure_en" }
+      ]
+    }
+  }
+]

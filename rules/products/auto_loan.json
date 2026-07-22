@@ -1,0 +1,33 @@
+[
+  {
+    "rule_id": "auto_loan_base_docs",
+    "name": "Baseline auto loan documents",
+    "product": "auto_loan",
+    "priority": 100,
+    "is_active": true,
+    "conditions": { "always": true },
+    "actions": {
+      "include_documents": [
+        { "template_id": "parent_contract_en" },
+        { "template_id": "auto_loan_contract_en" },
+        { "template_id": "kyc_form_en" }
+      ],
+      "set_variables": { "language": "en" }
+    }
+  },
+  {
+    "rule_id": "auto_loan_new_disclosure_2026",
+    "name": "New regulatory KYC disclosure effective 2026-01-01",
+    "description": "Example of a time-boxed rule: only takes effect for contracts generated on/after the regulation's effective date. Demonstrates priority-based override - because its priority (50) beats the baseline rule's (100), it wins the conflict over the shared kyc_form_en template_id once effective.",
+    "product": "auto_loan",
+    "priority": 50,
+    "is_active": true,
+    "effective_from": "2026-01-01",
+    "conditions": { "always": true },
+    "actions": {
+      "include_documents": [
+        { "template_id": "kyc_form_en", "variables": { "note": "regulatory_disclosure_v2026" } }
+      ]
+    }
+  }
+]
